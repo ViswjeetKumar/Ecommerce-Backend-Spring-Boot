@@ -159,17 +159,4 @@ This project is open-source and free to use.
 If you found this useful, give the repository a **star ⭐ on GitHub**!
 
 ````
-
----
-
-## Next steps
-- Create a file named `README.md` in your project root
-- Paste the content above
-- Commit & push it to GitHub:
-
-### CLI
-```bash
-git add README.md
-git commit -m "Add README documentation"
-git push
-
+s
