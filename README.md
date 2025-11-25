@@ -17,7 +17,6 @@ Supports full CRUD (Create, Read, Update, Delete) operations.
 | Lombok | Reduce boilerplate code |
 | Maven | Build and dependency management |
 
----
 
 ## ✨ Features
 
