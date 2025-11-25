@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 @Entity
 public class Product {
     @Id
