@@ -1,58 +1,56 @@
 package com.ecom.ecom_1.Controller;
-import com.ecom.ecom_1.Models.Product;
+import com.ecom.ecom_1.Product_DTO.ProductDTO;
 import com.ecom.ecom_1.Service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 @RestController
-@RequestMapping("/api")
 public class ProductController {
-
     final ProductService service;
-
     public ProductController(ProductService service) {
         this.service = service;
     }
-
     @GetMapping("/")
     public String greet() {
-        return "Hello Vam";
+        return "Welcome Sir/Ma'am, " +
+                "  This Is Home Page.";
     }
 
+    //Get All Products
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProduct() {
+    public ResponseEntity<List<ProductDTO>> getAllProduct() {
         return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
     }
 
+    //Get Product By ID
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> get_product_By_id(@PathVariable int id) {
-        Product product = service.getProdById(id);
-        if (product != null) {
-            return new ResponseEntity<>(product, HttpStatus.FOUND);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable int id) {
+        return new ResponseEntity<>(service.getProductById(id), HttpStatus.OK);
     }
 
+    //Create new Product
     @PostMapping("/create/products")
-    public ResponseEntity<Product> create_product(@RequestBody Product product) {
-        Product newProduct = service.createProduct(product);
-        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody  ProductDTO productDTO) {
+        ProductDTO createdProduct = service.createProduct(productDTO);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update/products/{id}")
-    public ResponseEntity<Product> update_product(@PathVariable int id, @RequestBody Product product) {
-        Product updetedProduct = service.updateProduct(id, product);
-        if (product != null) {
-            return new ResponseEntity<>(updetedProduct, HttpStatus.CREATED);
+    //Update anything in existing Product
+    @PatchMapping("/update/products/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody Map<String, Object> product, @PathVariable Integer id) {
+        ProductDTO updetedProductDTO = service.updateProduct(product,  id);
+        if (updetedProductDTO != null) {
+            return new ResponseEntity<>(updetedProductDTO, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
     }
 
+    //Delete or Remove any product
     @DeleteMapping("/delete/products/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
+    public ResponseEntity<Boolean> deleteProduct(@PathVariable int id) {
         Boolean deleted_product = service.delete_product(id);
         if (deleted_product) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

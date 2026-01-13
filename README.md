@@ -22,9 +22,9 @@ Supports full CRUD (Create, Read, Update, Delete) operations.
 
 - Add new products
 - Get all products
-- Get a product by ID
-- Update product (full or partial update)
-- Delete product
+- Get a productEntity by ID
+- Update productEntity (full or partial update)
+- Delete productEntity
 - Persistent H2 database (file mode)
 - Constructor-based dependency injection
 - Clean layered architecture (Controller → Service → Repository)
@@ -38,13 +38,13 @@ Supports full CRUD (Create, Read, Update, Delete) operations.
 GET /api/products
 ````
 
-### 🔍 Get product by ID
+### 🔍 Get productEntity by ID
 
 ```http
 GET /api/products/{id}
 ```
 
-### ➕ Create a new product
+### ➕ Create a new productEntity
 
 ```http
 POST /api/products
@@ -65,13 +65,13 @@ POST /api/products
 }
 ```
 
-### ✏ Update product (partial update)
+### ✏ Update productEntity (partial update)
 
 ```http
 PATCH /api/products/{id}
 ```
 
-### 🗑 Delete product
+### 🗑 Delete productEntity
 
 ```http
 DELETE /api/products/{id}
