@@ -1,161 +1,144 @@
+# 🛒 E-Commerce Backend — Spring Boot
 
-# 🛒 Spring Boot E-Commerce Product API
+A robust backend system for an e-commerce platform built using **Java and Spring Boot**.  
+This project provides RESTful APIs for managing products, categories, users, and core e-commerce operations.
 
-A simple and clean **REST API for managing products** in an e-commerce system, built using **Spring Boot**, **Spring Data JPA**, and **H2 database**.  
-Supports full CRUD (Create, Read, Update, Delete) operations.
-
----
-
-## 🚀 Tech Stack
-
-| Technology | Use |
-|------------|-----|
-| Java 17+ | Core language |
-| Spring Boot | REST API development |
-| Spring Data JPA | Database ORM |
-| H2 Database | In-memory / file DB |
-| Lombok | Reduce boilerplate code |
-| Maven | Build and dependency management |
-
-
-## ✨ Features
-
-- Add new products
-- Get all products
-- Get a productEntity by ID
-- Update productEntity (full or partial update)
-- Delete productEntity
-- Persistent H2 database (file mode)
-- Constructor-based dependency injection
-- Clean layered architecture (Controller → Service → Repository)
+Designed to demonstrate real-world backend development skills including API design, database integration, layered architecture, and exception handling.
 
 ---
 
-## 📦 API Endpoints
+##  Features
 
-### 🔍 Get all products
-```http
-GET /api/products
-````
-
-### 🔍 Get productEntity by ID
-
-```http
-GET /api/products/{id}
-```
-
-### ➕ Create a new productEntity
-
-```http
-POST /api/products
-```
-
-#### Example JSON body
-
-```json
-{
-  "name": "MacBook Pro 14",
-  "description": "Apple laptop with M3 chip",
-  "brand": "Apple",
-  "price": 1999.99,
-  "catagory": "Computers",
-  "released_date": "2024-03-10",
-  "available": true,
-  "quantity": 15
-}
-```
-
-### ✏ Update productEntity (partial update)
-
-```http
-PATCH /api/products/{id}
-```
-
-### 🗑 Delete productEntity
-
-```http
-DELETE /api/products/{id}
-```
+- 🔐 RESTful APIs for e-commerce operations
+- 📦 Product management (Create, Read, Update, Delete)
+- 🗂️ Category management
+- 👤 User management
+- 🧾 Order processing logic
+- 🗄️ Database integration using JPA/Hibernate
+- 🧩 Layered architecture (Controller → Service → Repository)
+- ⚡ Global exception handling
+- ✅ Input validation
 
 ---
 
-## 🗄 Database Configuration (H2 - File Mode)
+##  Tech Stack
 
-`application.properties` example
+### Backend
+- Java
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- JPQL
+- Pageable
+### Database
+- MySQL / H2 Database(Testing)
 
-```properties
-spring.application.name=ecom_1
-spring.jpa.show-sql=true
-spring.datasource.url=jdbc:h2:file:./data/my_db1
-spring.datasource.driverClassName=org.h2.Driver
+### Tools & Build
+- Maven
+- Postman (API Testing)
+- Git & GitHub
+
+---
+
+## 📂 Project Structure
+
+src/main/java 
+
+⟫ controller ✓ REST Controllers (API endpoints)
+
+⟫ service ✓ Business logic layer
+
+⟫ repository ✓ Data access layer (JPA Repositories)
+
+⟫ model/entity ✓ Database entities
+
+⟫ exception ✓ Custom exception handling
+
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Java 17 or later
+- Maven
+- MySQL (optional if using H2)
+
+---
+
+### 🔧 Run Locally
+
+#### 1. Clone the repository
+
+git clone https://github.com/ViswjeetKumar/Ecommerce-Backend-Spring-Boot.git
+
+
+#### 2️. Navigate into the project
+
+cd Ecommerce-Backend-Spring-Boot
+
+
+#### 3️.  Configure Database
+
+Update `application.properties`:
+
+For MySQL:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce_db
+spring.datasource.username=your_username
+spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
-spring.h2.console.enabled=true
-spring.datasource.username=sa
-spring.datasource.password=
-```
 
-H2 Console:
 
-```
-http://localhost:8080/h2-console
-```
+OR use H2 database (default for testing).
 
 ---
 
-## ▶ How to Run the Project
+#### 4️.  Run the application
 
-### Using IntelliJ IDEA
-
-1. Clone the repo
-
-   ```bash
-   git clone <your-repo-url>
-   ```
-2. Open project in IntelliJ
-3. Wait until Maven dependencies download
-4. Run `Ecom1Application.java`
-5. Test APIs using Postman or browser
-
-### Running via Maven command
-
-```bash
 mvn spring-boot:run
-```
+
+
+Server will start at:
+
+http://localhost:8080
+
 
 ---
 
-## 📁 Project Structure
+## 📡 API Testing
 
-```
-src
- └── main
-     ├── java
-     │   └── com.ecom.ecom_1
-     │        ├── Controller
-     │        ├── Service
-     │        └── Repository
-     └── resources
-         ├── application.properties
-         └── data.sql (optional)
-```
+Use **Postman** or any REST client to test endpoints.
+
+Example endpoints:
+
+- GET /products
+- POST /products
+- PUT /products/{id}
+- DELETE /products/{id}
 
 ---
 
-## 🤝 Contributions
+## 🎯 Learning Outcomes
 
-Pull requests are welcome.
-For major changes, please open an issue first to discuss the change.
+This project demonstrates:
+
+- Building scalable REST APIs using Spring Boot
+- Implementing layered architecture
+- Database operations using JPA/Hibernate
+- Exception handling and validation
+- Backend system design for real-world applications
 
 ---
 
-## 📄 License
+## 👨‍💻 Author
 
-This project is open-source and free to use.
+**Viswjeet Kumar**
+
+- LinkedIn: https://linkedin.com/in/viswjeet-kumar-engineer
+- GitHub: https://github.com/ViswjeetKumar
 
 ---
 
-# ⭐ Show Support
-
-If you found this useful, give the repository a **star ⭐ on GitHub**!
-
-````
+⭐ If you found this project useful, consider giving it a star.
