@@ -1,11 +1,15 @@
 package com.ecom.ecom_1.Controller;
 import com.ecom.ecom_1.Product_DTO.ProductDTO;
 import com.ecom.ecom_1.Service.ProductService;
+import com.ecom.ecom_1.exception.ResourceNotFoundException;
+import com.ecom.ecom_1.groupValidation.UpdateProductGroup;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Map;
+
 @RestController
 public class ProductController {
     final ProductService service;
@@ -26,8 +30,11 @@ public class ProductController {
 
     //Get Product By ID
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable int id) {
-        return new ResponseEntity<>(service.getProductById(id), HttpStatus.OK);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable
+            @Positive(message = "ID must be positive number") int id) {
+            ProductDTO productDTO=service.getProductById(id);
+            if(productDTO==null) throw  new ResourceNotFoundException("Product Not Found With ID: "+id);
+            return new ResponseEntity<>(productDTO,HttpStatus.OK);
     }
 
     //Create new Product
@@ -39,13 +46,13 @@ public class ProductController {
 
     //Update anything in existing Product
     @PatchMapping("/update/products/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody Map<String, Object> product, @PathVariable Integer id) {
+    public ResponseEntity<ProductDTO> updateProduct(@Validated(UpdateProductGroup.class)
+                                                        @RequestBody ProductDTO product,
+                                                    @Positive(message = "Id must be +ve and integer")
+                                                    @PathVariable Integer id) {
+        product.setId(id);
         ProductDTO updetedProductDTO = service.updateProduct(product,  id);
-        if (updetedProductDTO != null) {
-            return new ResponseEntity<>(updetedProductDTO, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
+        return new ResponseEntity<>(updetedProductDTO, HttpStatus.OK);
     }
 
     //Delete or Remove any product

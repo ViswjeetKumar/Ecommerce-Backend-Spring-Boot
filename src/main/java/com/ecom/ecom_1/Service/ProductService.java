@@ -3,19 +3,18 @@ package com.ecom.ecom_1.Service;
 import com.ecom.ecom_1.Models.ProductEntity;
 import com.ecom.ecom_1.Product_DTO.ProductDTO;
 import com.ecom.ecom_1.Repository.ProductRepository;
+import com.ecom.ecom_1.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ProductService {
 
     public  final ModelMapper modelMapper;
     public final  ProductRepository repository;
+    private ProductEntity productFromDB;
 
     public ProductService(ModelMapper modelMapper, ProductRepository repository) {
         this.modelMapper = modelMapper;
@@ -29,8 +28,11 @@ public class ProductService {
     }
 
     public ProductDTO getProductById(Integer id) {
-        ProductEntity foundProduct= repository.findById(id).orElse(null);
-        return modelMapper.map(foundProduct, ProductDTO.class);
+//        ProductEntity foundProduct= repository.findById(id).orElse(null);
+//        return modelMapper.map(foundProduct, ProductDTO.class);
+        return repository.findById(id).map(
+                entry-> modelMapper.map(entry, ProductDTO.class)
+        ).orElseThrow(()-> new ResourceNotFoundException("Product not found with id: "+id));
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {
@@ -49,24 +51,27 @@ public class ProductService {
     }
 //Product Exists? Function
     public boolean isExistsById(Integer id){
-        return repository.existsById(id);
+        boolean isExist= repository.existsById(id);
+        if(!isExist) throw  new ResourceNotFoundException("Product not found with ID: "+id);
+        return true;
     }
-    public ProductDTO updateProduct(Map<String, Object> product, Integer id ) {
-    boolean exists = isExistsById(id);
-    if(!exists) return null;
+    public ProductDTO updateProduct(ProductDTO product, Integer id ) {
+    isExistsById(id);
     ProductEntity productFromDB = repository.findById(id).get();
+    modelMapper.getConfiguration().setSkipNullEnabled(true);
+    modelMapper.map(product, productFromDB);
+    return modelMapper.map(repository.save(productFromDB), ProductDTO.class);
 // Using Reflection Concept Here
-        product.forEach((field, value)->{
-            Field fieldToBeUpdated= ReflectionUtils.findField(ProductEntity.class, field);
-           fieldToBeUpdated.setAccessible(true);
-           ReflectionUtils.setField(fieldToBeUpdated, productFromDB, value);
-        });
-        return modelMapper.map(repository.save(productFromDB), ProductDTO.class);
+//        product.forEach((field, value)->{
+//            Field fieldToBeUpdated= ReflectionUtils.findField(ProductEntity.class, field);
+//           fieldToBeUpdated.setAccessible(true);
+//           ReflectionUtils.setField(fieldToBeUpdated, productFromDB, value);
+//        });
+//        return modelMapper.map(repository.save(productFromDB), ProductDTO.class);
     }
 
     public Boolean delete_product(Integer id) {
-        boolean exist= isExistsById(id);
-        if (!exist) return false;
+        isExistsById(id);
         repository.deleteById(id);
         return true;
     }
